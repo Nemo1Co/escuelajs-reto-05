@@ -3,8 +3,8 @@ const $observe = document.getElementById('observe');
 const API = 'https://rickandmortyapi.com/api/character/';
 
 const getData = async (api) => {
-  await fetch(api)
-    .then((response) => response.json())
+  let response = await fetch(api);
+  await response.json()
     .then((response) => {
       localStorage.setItem('next_fetch', response.info.next);
       const characters = response.results;
