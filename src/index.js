@@ -2,20 +2,22 @@ const $app = document.getElementById('app');
 const $observe = document.getElementById('observe');
 const API = 'https://rickandmortyapi.com/api/character/';
 const nextFetch = 'next_fetch';
+const prevFetch = 'prev_fetch';
 
 const getData = async (api) => {
   let response = await fetch(api);
   await response.json()
     .then((response) => {
       localStorage.setItem(nextFetch, response.info.next);
+      localStorage.setItem(prevFetch, response.info.prev);
       const characters = response.results;
       let output = characters.map(character => {
         return `
-      <article class="Card">
-        <img src="${character.image}" />
-        <h2>${character.name}<span>${character.species}</span></h2>
-      </article>
-    `;
+        <article class="Card">
+          <img src="${character.image}" />
+          <h2>${character.name}<span>${character.species}</span></h2>
+        </article>
+        `;
       }).join('');
       let newItem = document.createElement('section');
       newItem.classList.add('Items');
@@ -26,11 +28,17 @@ const getData = async (api) => {
 }
 
 const loadData = () => {
-  const myStorage = localStorage.getItem(nextFetch);
-  if (myStorage) {
-    getData(myStorage);
+  const myStorageNext = localStorage.getItem(nextFetch);
+  const myStoragePrev = localStorage.getItem(prevFetch);
+  if (myStorageNext) {
+    getData(myStorageNext);
   } else {
-    getData(API);
+    if (myStoragePrev) {
+      intersectionObserver.unobserve($observe);
+      window.alert('Ya no hay personajes...');
+    } else {
+      getData(API);
+    }
   }
 }
 
@@ -46,4 +54,5 @@ intersectionObserver.observe($observe);
 
 window.addEventListener("beforeunload", (element) => {
   localStorage.removeItem(nextFetch);
+  localStorage.removeItem(prevFetch);
 });
