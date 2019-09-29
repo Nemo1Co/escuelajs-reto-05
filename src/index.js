@@ -7,13 +7,15 @@ const getData = api => {
     .then(response => response.json())
     .then(response => {
       const characters = response.results;
+      localStorage.setItem('next_fetch', response.info.next);
+      const myStorage = localStorage.getItem('next_fetch');
       let output = characters.map(character => {
         return `
       <article class="Card">
         <img src="${character.image}" />
         <h2>${character.name}<span>${character.species}</span></h2>
       </article>
-    `
+    `;
       }).join('');
       let newItem = document.createElement('section');
       newItem.classList.add('Items');
