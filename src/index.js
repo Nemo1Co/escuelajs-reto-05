@@ -8,8 +8,8 @@ const getData = async (api) => {
   let response = await fetch(api);
   await response.json()
     .then((response) => {
-      localStorage.setItem(nextFetch, response.info.next);
-      localStorage.setItem(prevFetch, response.info.prev);
+      sessionStorage.setItem(nextFetch, response.info.next);
+      sessionStorage.setItem(prevFetch, response.info.prev);
       const characters = response.results;
       let output = characters.map(character => {
         return `
@@ -24,12 +24,12 @@ const getData = async (api) => {
       newItem.innerHTML = output;
       $app.appendChild(newItem);
     })
-    .catch(error => console.log(error));
+    .catch((error) => console.log(error));
 }
 
 const loadData = () => {
-  const myStorageNext = localStorage.getItem(nextFetch);
-  const myStoragePrev = localStorage.getItem(prevFetch);
+  const myStorageNext = sessionStorage.getItem(nextFetch);
+  const myStoragePrev = sessionStorage.getItem(prevFetch);
   if (myStorageNext) {
     getData(myStorageNext);
   } else {
@@ -53,6 +53,5 @@ const intersectionObserver = new IntersectionObserver(entries => {
 intersectionObserver.observe($observe);
 
 window.addEventListener("beforeunload", (element) => {
-  localStorage.removeItem(nextFetch);
-  localStorage.removeItem(prevFetch);
+  sessionStorage.clear();
 });
