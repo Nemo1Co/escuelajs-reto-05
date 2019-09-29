@@ -114,6 +114,8 @@ La API utilizada "RickAndMortyApi.com" tiene 25 paginas de 20 personajes cada un
 1. Implementar mensaje: "Ya no hay personajes...".
 2. Deja de observar el elemento "observe".
 
+> **Se propone un cambio: dejar de usar _localStorage_ por _sessionStorage_. Siendo un poco más natural dado que en el problema anterior, ya el cerrar la pestaña o actualizar se eliminaba el localStorage**
+
 ### Enviar solución de reto
 
 Debes de crear un "Fork" de este proyecto, revolver los problemas y crear un Pull Request hacia este repositorio.
